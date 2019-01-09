@@ -1,17 +1,20 @@
-const express = require('express');
-const router  = express.Router();
-const Celebrity = require('../models/Celebrity')
+const express = require("express");
+const router = express.Router();
+const Celebrity = require("../models/Celebrity");
 // router.use('/', Celebritie);
 
-router.get('/', (req, res, next) => {
-  res.render('index');
+router.get("/", (req, res, next) => {
+  res.render("index");
 });
 
+router.get("/celebrities/new", (req, res, next) => {
+  res.render("celebrities/new-celebrity");
+});
 
-router.get('/celebrities', (req, res, next) => {
+router.get("/celebrities", (req, res, next) => {
   Celebrity.find({})
     .then(celebrities => {
-      res.render('celebrities/index', { celebrities });
+      res.render("celebrities/index", { celebrities });
     })
     .catch(error => {
       console.log(error);
@@ -35,6 +38,17 @@ router.get("/celebrity/:id", (req, res, next) => {
     });
 });
 
-
+router.post("/celebrities/new", (req, res, next) => {
+  const { name, occupation, catchPhrase } = req.body;
+  const newCelebrity = new Celebrity({ name, occupation, catchPhrase });
+  newCelebrity
+    .save()
+    .then(celebrity => {
+      res.redirect("/celebrities");
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
 
 module.exports = router;
