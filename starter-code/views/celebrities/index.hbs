@@ -3,11 +3,10 @@
     Celebrities
   </h2>
 </div>
- <div>
-     {{#each celebrity}}
+<div>
+  {{#each celebrities}}
+  <a href="celebrity/{{this._id}}">
     <h1>{{this.name}}</h1>
-    <img src="{{this.image}}" alt="">
-    <h2>{{this.occupation}}</h2>
-    <p>{{this.catchPhrase}}</p>
-    {{/each}}
-  </div>
+  </a>
+  {{/each}}
+</div>

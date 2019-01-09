@@ -1,7 +1,8 @@
 const mongoose = require ("mongoose");
 const Celebrity = require ("../models/Celebrity");
 
-
+const dbtitle = 'movies';
+mongoose.connect(`mongodb://localhost/${dbtitle}`);
 
 mongoose
 	.connect('mongodb://localhost/movies', {
@@ -35,11 +36,9 @@ const celebrities = [
   }
 ];
 
-Celebrity.create(celebrities, err => {
-  if (err) {
-    throw err;
-  }
-  mongoose.connection.close();
+Celebrity.create(celebrities, (err) => {
+  if (err) { throw(err) }
+  console.log(`Created ${celebrities.length} celebrities`)
+  mongoose.connection.close()
 });
 
-Celebrity.insertMany(celebrities);
