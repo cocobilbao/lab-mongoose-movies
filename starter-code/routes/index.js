@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Celebrity = require("../models/Celebrity");
-// router.use('/', Celebritie);
+
 
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -50,5 +50,44 @@ router.post("/celebrities/new", (req, res, next) => {
       console.log(error);
     });
 });
+
+router.post("/celebrities/:id/delete", (req, res, next) => {
+  let celebritieId = req.params.id;
+
+  Celebrity.findByIdAndRemove({ _id: celebritieId })
+    .then(() => {
+      res.redirect("/celebrities");
+    })
+    .catch(next);
+});
+
+
+
+router.get('/celebrities/:id/edit', (req,res,next)=>{
+  let celebritieId = req.params.id;
+
+  Celebrity.findOne({'_id': celebritieId})
+   .then(celebrity=>{
+       res.render('celebrities/edit-celebrity', celebrity);
+   })
+   .catch(next)
+})
+
+router.post('/celebrities/:id',(req,res,next)=>{
+
+ let celebritieId = req.params.id;
+
+ var objCelebrity = {
+   name: req.body.name,
+   occupation: req.body.occupation,
+   catchPhrase: req.body.catchPhrase
+ }
+
+ Celebrity.findByIdAndUpdate(celebritieId, {$set: objCelebrity}, {new:true} )
+   .then(()=>{
+     res.redirect('/celebrities');
+   })
+   .catch(next)
+})
 
 module.exports = router;

@@ -9,5 +9,9 @@
   <a href="celebrity/{{this._id}}">
     <h1>{{this.name}}</h1>
   </a>
+         <form action="/celebrities/{{this._id}}/delete" method="POST">
+            <input type="submit" value="Delete celebrity">
+        </form>
+        <a href="celebrities/{{this._id}}/edit">Edit celebrity</a>
   {{/each}}
 </div>
